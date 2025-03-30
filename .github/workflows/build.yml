@@ -5,15 +5,21 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
+    
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
+        
     - name: Install dependencies
       run: pip install setuptools wheel pybind11
+      
     - name: Build Wheel
       run: pip wheel ./pyclothoids --no-deps -w wheels/
-    - uses: actions/upload-artifact@v3
+      
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4  # Usa la versione v4
+      if: success()  # Opzionale: carica solo se i passi precedenti hanno successo
       with:
-        name: wheels
+        name: pyclothoids-wheel
         path: wheels/
